@@ -58,4 +58,22 @@ void MySimulator::configureTree_() {
   }
 }
 
-void MySimulator::bindTree_() {}
+void MySimulator::bindTree_() {
+  if (SPARTA_EXPECT_FALSE(noisy)) {
+    std::cout << "NOISE: " << __PRETTY_FUNCTION__
+              << ": The simulated objects are instantiated.  Can be bound now."
+              << std::endl;
+  }
+
+  auto *RootNode = getRoot();
+  sparta_assert(RootNode != nullptr);
+
+  // Bind the producer to the consumer
+  sparta::bind(
+      RootNode->getChildAs<sparta::Port>("producer.ports.producer_out_port"),
+      RootNode->getChildAs<sparta::Port>("consumer.ports.consumer_in_port"));
+
+  sparta::bind(
+      RootNode->getChildAs<sparta::Port>("producer.ports.producer_go_port"),
+      RootNode->getChildAs<sparta::Port>("consumer.ports.producer_go_port"));
+}
