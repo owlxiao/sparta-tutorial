@@ -27,8 +27,35 @@ MySimulator::~MySimulator() {
   getRoot()->enterTeardown(); // Allow deletion of nodes without error now
 }
 
-void MySimulator::buildTree_() {}
+void MySimulator::buildTree_() {
+  if (SPARTA_EXPECT_FALSE(noisy)) {
+    std::cout << "NOISE: " << __PRETTY_FUNCTION__
+              << ": Building the ResourceTreeNodes -- not instantiated yet"
+              << std::endl;
+  }
 
-void MySimulator::configureTree_() {}
+  // Create consumer
+  auto *ret = new sparta::ResourceTreeNode(
+      getRoot(), "consumer", sparta::TreeNode::GROUP_NAME_NONE,
+      sparta::TreeNode::GROUP_IDX_NONE, "Consumer Object",
+      getResourceSet()->getResourceFactory(Consumer::name));
+  to_delete_.emplace_back(ret);
+
+  // Create producer
+  ret = new sparta::ResourceTreeNode(
+      getRoot(), "producer", sparta::TreeNode::GROUP_NAME_NONE,
+      sparta::TreeNode::GROUP_IDX_NONE, "Producer Object",
+      getResourceSet()->getResourceFactory(Producer::name));
+  to_delete_.emplace_back(ret);
+}
+
+void MySimulator::configureTree_() {
+  if (SPARTA_EXPECT_FALSE(noisy)) {
+    std::cout << "NOISE: " << __PRETTY_FUNCTION__
+              << ": Configuring the parameters in the ResourceTreeNodes, "
+              << "but not the simulated objects are still not instantiated yet!"
+              << std::endl;
+  }
+}
 
 void MySimulator::bindTree_() {}
