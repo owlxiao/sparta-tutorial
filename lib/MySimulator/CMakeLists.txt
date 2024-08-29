@@ -1,1 +1,1 @@
-add_library(MySimulator MySimulator.cpp)
+add_library(MySimulator MySimulator.cpp Consumer.cpp Producer.cpp)

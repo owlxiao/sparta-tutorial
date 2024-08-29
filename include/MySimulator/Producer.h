@@ -1,10 +1,10 @@
-#ifndef MYSIMULATOR_CONSUMER_H
-#define MYSIMULATOR_CONSUMER_H
+#ifndef SIMULATOR_PRODUCER_H
+#define SIMULATOR_PRODUCER_H
 
 #include <sparta/simulation/ParameterSet.hpp>
 #include <sparta/simulation/Unit.hpp>
 
-class Consumer : public sparta::Unit {
+class Producer : public sparta::Unit {
 public:
   static const char *name;
 
@@ -13,7 +13,7 @@ public:
     ParameterSet(sparta::TreeNode *n) : sparta::ParameterSet(n) {}
   };
 
-  Consumer(sparta::TreeNode *node, const Consumer::ParameterSet *p);
+  Producer(sparta::TreeNode *node, const ParameterSet *p);
 };
 
-#endif // MYSIMULATOR_CONSUMER_H
+#endif // SIMULATOR_PRODUCER_H
