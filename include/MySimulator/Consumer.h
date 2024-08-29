@@ -18,9 +18,25 @@ public:
   Consumer(sparta::TreeNode *node, const Consumer::ParameterSet *p);
 
 private:
-  sparta::SignalOutPort ProducerOutPort{&unit_port_set_, "producer_go_port"};
+  // Consumer's receiving callback
+  void receiveData(const uint32_t &dat);
+  sparta::utils::ValidValue<uint32_t> ArrivedData;
+
+  // 0 cycle delay on scheduling
+  sparta::UniqueEvent<> EvDataArrived{
+      &unit_event_set_, "EvDataArrived",
+      CREATE_SPARTA_HANDLER(Consumer, dataArrived), 0};
+
+  // Operate on incoming data
+  void dataArrived();
+
+  // Startup handler
+  void signalNextProducer();
+
+  sparta::SignalOutPort ProducerGoPort{&unit_port_set_, "producer_go_port"};
   sparta::DataInPort<uint32_t> ConsumerInPort{&unit_port_set_,
-                                              "consumer_in_port"};
+                                              "consumer_in_port", 1};
+
 };
 
 #endif // MYSIMULATOR_CONSUMER_H

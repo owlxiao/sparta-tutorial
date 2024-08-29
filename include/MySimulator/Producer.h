@@ -18,9 +18,15 @@ public:
   Producer(sparta::TreeNode *node, const ParameterSet *p);
 
 private:
+  // Producer's ports
+  void produceData();
+
   sparta::SignalInPort ProducerGoPort{&unit_port_set_, "producer_go_port"};
   sparta::DataOutPort<uint32_t> ProducerOutPort{&unit_port_set_,
                                                 "producer_out_port"};
+
+  // Internal count;
+  size_t CurrentCount{0};
 };
 
 #endif // SIMULATOR_PRODUCER_H
